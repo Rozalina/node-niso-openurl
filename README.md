@@ -17,7 +17,7 @@ ctx.rft.setValue('title', 'A Title');
 
 ctx.toKev();
 
-var kev = "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&rft.issn=1045-4438&rfr_id=info:/example.org/1";
+var kev = "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&rft.issn=1045-4438&rfr_id=info%3Asid%2Fexample.org%2F1";
 
 var ctx = new openurl.context_object();
 
