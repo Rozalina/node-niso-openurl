@@ -2,7 +2,7 @@ var openurl = require('../index');
 
 exports['testContextObjectMetadataGetterSetters'] = function(test)
 {
-    var ctx = new openurl.context_object();
+    var ctx = new openurl.ContextObject();
     test.equals(ctx.version, "Z39.88-2004");
     ctx.version = 'foobar';
     test.notEqual(ctx.version, 'foobar');
@@ -18,65 +18,65 @@ exports['testContextObjectMetadataGetterSetters'] = function(test)
 };
 exports['testEntityGettersSetters'] = function (test)
 {
-    var ctx = new openurl.context_object();
+    var ctx = new openurl.ContextObject();
     x = "1";
-    var rft = new openurl.entity();
+    var rft = new openurl.Entity();
     test.throws(ctx.rft="blah", TypeError);
     rft.setMetadata('id', x);
     ctx.referent = rft;
     test.deepEqual(ctx.referent, rft);
     test.deepEqual(ctx.rft, rft);
     x++;
-    var rft2 = new openurl.entity();
+    var rft2 = new openurl.Entity();
     rft2.setMetadata('id', x);
     ctx.rft = rft2;
     test.deepEqual(ctx.referent, rft2);
     test.deepEqual(ctx.rft, rft2);
-    var rfe = new openurl.entity();
+    var rfe = new openurl.Entity();
     x++;
     rfe.setMetadata('id', x);
     ctx.referringEntity = rfe;
     test.deepEqual(ctx.referringEntity, rfe);
     test.deepEqual(ctx.rfe, rfe);
-    var rfe2 = new openurl.entity();
+    var rfe2 = new openurl.Entity();
     x++;
     rfe2.setMetadata('id', x);
     ctx.rfe = rfe2;
     test.deepEqual(ctx.referringEntity, rfe2);
     test.deepEqual(ctx.rfe, rfe2);
-    var rfr = new openurl.entity();
+    var rfr = new openurl.Entity();
     x++;
     rfr.setMetadata('id',x);
     ctx.referrer = rfr;
     test.deepEqual(ctx.referrer, rfr);
     test.deepEqual(ctx.rfr, rfr);
-    var rfr2 = new openurl.entity();
+    var rfr2 = new openurl.Entity();
     x++;
     rfr2.setMetadata('id', x);
     ctx.rfr = rfr2;
     test.deepEqual(ctx.referrer, rfr2);
     test.deepEqual(ctx.rfr, rfr2);
-    var req = new openurl.entity();
+    var req = new openurl.Entity();
     x++;
     req.setMetadata('id', x);
     ctx.requester = req;
     test.deepEqual(ctx.requester, req);
     test.deepEqual(ctx.req, req);
-    var req2 = new openurl.entity();
+    var req2 = new openurl.Entity();
     x++;
     req2.setMetadata('id',x);
     ctx.req = req2;
     test.deepEqual(ctx.requester, req2);
     test.deepEqual(ctx.req, req2);
 
-    var svc = new openurl.entity();
+    var svc = new openurl.Entity();
     x++;
     svc.setMetadata('id',x);
     ctx.serviceType = svc;
     test.deepEqual(ctx.serviceType, svc);
     test.deepEqual(ctx.svc, svc);
     test.throws(function() { ctx.serviceType = [svc, "blah"]; }, TypeError);
-    var svc2 = new openurl.entity();
+    var svc2 = new openurl.Entity();
     x++;
     svc2.setMetadata('id',x);
     test.doesNotThrow(function() { ctx.serviceType = [svc, svc2]; });
@@ -89,14 +89,14 @@ exports['testEntityGettersSetters'] = function (test)
     test.deepEqual(ctx.svc, svc2);
     test.throws(function() { ctx.svc = [svc, "blah"]; }, TypeError);
 
-    var res = new openurl.entity();
+    var res = new openurl.Entity();
     x++;
     res.setMetadata('id',x);
     ctx.resolver = res;
     test.deepEqual(ctx.resolver, res);
     test.deepEqual(ctx.res, res);
     test.throws(function() { ctx.resolver = [res, "blah"]; }, TypeError);
-    var res2 = new openurl.entity();
+    var res2 = new openurl.Entity();
     x++;
     res2.setMetadata('id',x);
     test.doesNotThrow(function() { ctx.resolver = [res, res2]; });
@@ -114,8 +114,8 @@ exports['testEntityGettersSetters'] = function (test)
 
 exports['testPrivateEntity'] = function(test)
 {
-    var ctx = new openurl.context_object();
-    var e = new openurl.entity();
+    var ctx = new openurl.ContextObject();
+    var e = new openurl.Entity();
     ctx.definePrivateEntity('exp', 'exampleEntity');
     test.ok(ctx.__lookupGetter__('exp'));
     test.ok(ctx.__lookupSetter__('exp'));
@@ -128,20 +128,20 @@ exports['testPrivateEntity'] = function(test)
 
 exports['testToKev'] = function(test)
 {
-    var ctx = new openurl.context_object();
-    ctx.rft = new openurl.entity();
+    var ctx = new openurl.ContextObject();
+    ctx.rft = new openurl.Entity();
     ctx.rft.setValue('isbn', '1234567890');
     ctx.rft.setMetadata('id', "info:isbn/1234567890");
 
-    ctx.rfr = new openurl.entity();
+    ctx.rfr = new openurl.Entity();
     ctx.rfr.setMetadata('id', 'info:sid/example.org');
 
-    ctx.svc = [new openurl.entity(), new openurl.entity()];
+    ctx.svc = [new openurl.Entity(), new openurl.Entity()];
     ctx.svc[0].setValue('foo','bar');
     ctx.svc[1].setValue('baz','foobar');
 
     ctx.definePrivateEntity('exp', 'exampleEntity');
-    ctx.exp = new openurl.entity();
+    ctx.exp = new openurl.Entity();
 
     ctx.exp.setMetadata('id', 'info:id/foo.bar');
     ctx.exp.setValue('a','b');
@@ -161,7 +161,7 @@ exports['testToKev'] = function(test)
 
 exports['testLoadFromKev'] = function(test)
 {
-    var ctx = new openurl.context_object();
+    var ctx = new openurl.ContextObject();
     var kev = "url_ver=Z39.88-2004&url_ctx_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Actx&rft_id=info%3Adoi%2F10.1038%2Fnature01262&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&rft.doi=10.1038%2Fnature01262&rft.atitle=Initial%20sequencing%20and%20comparative%20analysis%20of%20the%20mouse%20genome&rft.au=Asif%20Chinwalla&rft.au=Chinwalla%2C%20Asif%20T.&rft.spage=520&rft.volume=420&rft.issue=6915&rft.date=2002-12&rft.issn=0028-0836&rft.issn=1476-4687&rft.eissn=0028-0836&rft.jtitle=Nature%20(London)&sfx.response_type=multi_obj_xml&sfx.doi_url=http://dx.doi.org&rft_id=info:doi/10.1038/nature01262&rfr_id=info:sid/talisaspire.com/clearance";
     ctx.loadFromKev(kev, function()
     {

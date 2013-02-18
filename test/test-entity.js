@@ -1,7 +1,7 @@
 var openurl = require('../index');
 
 exports['testAttributes'] = function (test) {
-    entity = new openurl.entity();
+    entity = new openurl.Entity();
     entity.identifier = '1234';
     test.equals('1234', entity.identifier);
     entity.valFormat = "foo:/bar";
@@ -18,7 +18,7 @@ exports['testAttributes'] = function (test) {
 
 exports['testSetValues'] = function (test)
 {
-    entity = new openurl.entity();
+    entity = new openurl.Entity();
     entity.setValue('foo','bar');
     test.equals('bar', entity.values.foo);
     entity.setValue('foo', 'baz');
@@ -35,7 +35,7 @@ exports['testSetValues'] = function (test)
 
 exports['testSetMetadata'] = function (test)
 {
-    entity = new openurl.entity();
+    entity = new openurl.Entity();
     entity.setMetadata('id', 'foo:/bar');
     test.equals('foo:/bar', entity.identifier);
     entity.setMetadata('val_fmt', 'foo.bar.baz');
@@ -51,7 +51,7 @@ exports['testSetMetadata'] = function (test)
 
 exports['testToKev'] = function (test)
 {
-    entity = new openurl.entity();
+    entity = new openurl.Entity();
     test.throws(function(){entity.toKev()}, SyntaxError);
     entity.setValue('foo','bar');
     entity.setValue('foo', 'baz');
